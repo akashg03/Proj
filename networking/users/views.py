@@ -40,3 +40,7 @@ def profile(request):
     }
 
     return render(request, 'users/profile.html', context)
+
+def model_form_upload(request):
+    if request.method == 'POST':
+        form = DocumentForm

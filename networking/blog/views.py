@@ -61,3 +61,13 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def about(request):
 	return render(request, 'blog/about.html',{'title':'about'})
+
+
+def upload(request):
+	if request.method == 'POST' and request.FILES['myfile']:
+		myfile = request.FILES['myfile']
+		fs = FileSystemStorage()
+		filename = fs.save(myfile.name, myfile)
+		user.post.image.url = fs.url(filename)
+		return render(request, 'blog/post_form.html', {'user.post.image.url':user.post.image.url})
+	return render(request, 'blog/post_form.html')
