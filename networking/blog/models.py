@@ -8,7 +8,7 @@ from PIL import Image
 class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
-    image = models.ImageField(null = True, upload_to = 'post_pics')
+    image = models.ImageField(default='default.jpg', upload_to='post_pics/')
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 

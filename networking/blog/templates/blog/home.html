@@ -9,8 +9,9 @@
 		      <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small> <!--#can add time here too look at django docx -->
 		    </div>
 		    <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-		    <p class="article-content">{{ post.content }}</p>
-		    <img class src="{{ user.post.image.url }}">
+		    <p class="article-content">{{ post.content }}
+		    	<img src="{{ post.Pic.image.url }}"></p>
+		    <img class src="{{ user.Pic.image.url }}">
 		  </div>
 		</article>
 	{% endfor %}

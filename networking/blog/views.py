@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post
+from .forms import *
 
 
 def home(request):
@@ -24,7 +26,7 @@ class PostDetailView(DetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
 	model = Post
-	fields = ['title', 'content']
+	fields = ['title', 'content', 'image']
 
 	def form_valid(self, form):
 		form.instance.author = self.request.user
@@ -71,3 +73,31 @@ def upload(request):
 		user.post.image.url = fs.url(filename)
 		return render(request, 'blog/post_form.html', {'user.post.image.url':user.post.image.url})
 	return render(request, 'blog/post_form.html')
+
+
+def image(request): 
+  
+    if request.method == 'POST': 
+        form = Pic(request.POST, request.FILES) 
+  
+        if form.is_valid(): 
+            form.save() 
+            return redirect('success') 
+    else: 
+        form = Pic() 
+    return render(request, 'home.html', {'form' : form}) 
+  
+  
+def success(request): 
+    return HttpResponse('successfully uploaded')
+
+
+
+def display_images(request): 
+
+	if request.method == 'GET': 
+
+	    # getting all the objects of hotel. 
+	    Pics = Pic.objects.all()  
+	    return render((request, 'home.html', 
+	                 {'pics' : Pics}))
